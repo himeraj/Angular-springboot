@@ -13,7 +13,7 @@ public class Department {
 
 	@Id
     @Column(nullable = false, name="department_id" )
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int departmentId;
 
     @Column(name="department_name")
@@ -23,19 +23,18 @@ public class Department {
     	super();
     }
 
-    public Department(int departmentId, String departmentName) {
+    public Department(String departmentName) {
     	super();
-    	this.departmentId = departmentId;
     	this.departmentName = departmentName;
     }
     
 	public int getDepartmentId() {
 		return departmentId;
 	}
-
+/*
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
-	}
+	}*/
 
 	public String getDepartmentName() {
 		return departmentName;

@@ -1,35 +1,45 @@
 package com.raj.demo.sample;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
-    private EmployeeRepository repository;
+    private EmployeeRepository employeeRepository;
     
-    @Autowired
-    private DepartmentService departmentService;
-
     @Override
     public List<Employee> findAll() {
-    	createEmployeeData();
-        return repository.findAll();
+        return (List<Employee>) employeeRepository.findAllEmployees();
     }
     
-    private void createEmployeeData() {
-    	Department hrDept = new Department(1, "HR");
-		departmentService.saveDepartment(hrDept);
-		Department adminDept = new Department(2, "Admin");
-		departmentService.saveDepartment(adminDept);
-		
-		repository.save(new Employee(1, "Raj", hrDept));
-		repository.save(new Employee(2, "Hime", hrDept));
-		repository.save(new Employee(3, "Jack", adminDept));
-		repository.save(new Employee(4, "Ryan", adminDept));
-		repository.save(new Employee(5, "Hevertlee", adminDept));
+	public Optional<Employee> findOne(int id) {
+    	return employeeRepository.findById(id);
     }
+
+	@Override
+	public void save(Employee e) {
+		employeeRepository.save(e);
+	}
+
+	@Override
+	@Transactional
+	public void update(Employee e) {
+		employeeRepository.updateEmployee(e.getEmployeeName(), e.getEmployeeId(), e.getDepartmentName(), e.getDepartmentId());
+	}
+
+	@Override
+	public String delete(int employeeId) {
+		List<Employee> empList = findAll();
+		for (Employee employee : empList) {
+			if(employee.getEmployeeId() == employeeId)
+				employeeRepository.delete(employee);
+		}
+		return "Employee deleted Successfully";
+	}
 }

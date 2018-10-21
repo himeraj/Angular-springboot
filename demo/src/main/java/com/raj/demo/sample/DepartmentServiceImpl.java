@@ -9,16 +9,36 @@ import org.springframework.stereotype.Service;
 public class DepartmentServiceImpl implements DepartmentService {
 	
 	@Autowired
-	DepartmentRepository departmentRepo;
+	DepartmentRepository departmentRepository;
 
 	@Override
 	public List<Department> findAll() {
-		return departmentRepo.findAll();
+		/*departmentRepository.deleteAll();
+		createdata();*/
+		return (List<Department>) departmentRepository.findAll();
+	}
+
+	private void createdata() {
+		// TODO Auto-generated method stub
+		Department hrDept = new Department("HR");
+    	departmentRepository.save(hrDept);
+		Department adminDept = new Department("Admin");
+		departmentRepository.save(adminDept);
 	}
 
 	@Override
 	public void saveDepartment(Department department) {
-		departmentRepo.save(department);
+		departmentRepository.save(department);
+	}
+
+	@Override
+	public Department findById(int id) {
+		List<Department> dep = (List<Department>) departmentRepository.findAll();
+		for (Department department : dep) {
+			if(department.departmentId == id) 
+				return department;
+		}
+		return null;
 	}
 
 }

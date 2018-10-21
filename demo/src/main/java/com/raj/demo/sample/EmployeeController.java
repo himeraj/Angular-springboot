@@ -17,4 +17,19 @@ public class EmployeeController {
     public List<Employee> findAll(){
         return employeeService.findAll();
     }
+    
+    @PostMapping("/save")
+    public void save(@RequestBody Employee e) {
+    	employeeService.save(e);
+    }
+    
+    @PostMapping("/update")
+    public void update(@RequestBody Employee e) {
+    	employeeService.update(e);
+    }
+    
+    @GetMapping("/delete")
+    public String delete(@RequestParam int eId) {
+    	return employeeService.delete(eId);
+    }
 }

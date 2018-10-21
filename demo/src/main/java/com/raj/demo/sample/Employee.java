@@ -13,25 +13,23 @@ public class Employee {
     @Column(name="employee_name")
     private String employeeName;
     
-    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinColumn(name="department_id")
+    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=Department.class)
+    @JoinColumn(insertable=false)
     private Department department;
+    
+    @Column(name="department_id")
+    private int departmentId;
+    
+    @Column(name="department_name")
+    private String departmentName;
 
     public Employee() {
 
     }
-    public Employee(int employeeId, String employeeName, Department department){
-        this.employeeId = employeeId;
+    public Employee(String employeeName, int departmentId, String deptName){
         this.employeeName = employeeName;
-        this.department = department;
-    }
-
-    public int getId() {
-        return employeeId;
-    }
-
-    public void setId(int id) {
-        this.employeeId = id;
+        this.departmentId = departmentId;
+        this.departmentName = deptName;
     }
 
     public String getEmployeeName() {
@@ -46,5 +44,23 @@ public class Employee {
 	}
 	public void setDepartment(Department department) {
 		this.department = department;
+	}
+	public int getEmployeeId() {
+		return employeeId;
+	}/*
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}*/
+	public int getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(int departmentId) {
+		this.departmentId = departmentId;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 }
